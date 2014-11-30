@@ -9,14 +9,9 @@ class Rook: public Piece {
 	Rook(Board *board);
 	~Rook();
 	//see piece.h for details
-	void updateValidMoves();
-	void updateLegalMoves();
-	void deleteValidMoves();
-	void deleteLegalMoves();
 	bool updatePosition(int, int);
 	bool isValid(int, int);
 	bool isLegal(int, int);
-	bool inRange(int, int);
 };
 
 #endif

@@ -9,14 +9,9 @@ class Knight: public Piece {
 	Knight(Board *board);
 	~Knight();
 	//see piece.h for details
-	void updateValidMoves();
-	void updateLegalMoves();
-	void deleteValidMoves();
-	void deleteLegalMoves();
 	bool updatePosition(int, int);
 	bool isValid(int, int);
 	bool isLegal(int, int);
-	bool inRange(int, int);
 };
 
 #endif

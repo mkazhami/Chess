@@ -9,10 +9,6 @@ class Bishop: public Piece {
 	Bishop(Board *board);
 	~Bishop();
 	//see piece.h for details
-	void deleteValidMoves();
-	void deleteLegalMoves();
-	void updateValidMoves();
-	void updateLegalMoves();
 	bool updatePosition(int, int);
 	bool isValid(int, int);
 	bool isLegal(int, int);

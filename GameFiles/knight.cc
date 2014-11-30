@@ -12,48 +12,6 @@ Knight::~Knight() {
 	if(legalMoves.size() != 0) deleteLegalMoves();
 }
 
-void Knight::updateValidMoves() {
-	if(validMoves.size() != 0) deleteValidMoves();
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			if(isValid(i, j)){
-				Posn *temp = new Posn(i,j);
-				validMoves.push_back(temp);
-			}
-		}
-	}
-}
-
-void Knight::updateLegalMoves() {
-       if(legalMoves.size() != 0) deleteLegalMoves();
-//       cout << "updating moves" << endl;
-       for(int i = 0; i < validMoves.size(); i++){
-               if(isLegal(validMoves[i]->row, validMoves[i]->col)){
-                       Posn *temp = new Posn(validMoves[i]->row, validMoves[i]->col);
-                       legalMoves.push_back(temp);
-               }
-       }
-}
-
-
-void Knight::deleteValidMoves() {
-	for(int i = 0; i < validMoves.size(); i++){
-		Posn *temp = validMoves[i];
-		if(temp != 0) delete temp;
-		temp = 0;
-	}
-	validMoves.clear();
-}
-
-void Knight::deleteLegalMoves() {
-        for(int i = 0; i < legalMoves.size(); i++){
-                Posn *temp = legalMoves[i];
-                if(temp != 0) delete temp;
-		temp = 0;
-        }
-        legalMoves.clear();
-}
-
 bool Knight::isLegal(int row, int col) {
         bool isLegal = false;
         if(isValid(row, col)){
@@ -128,8 +86,6 @@ bool Knight::updatePosition(int row, int col) {
 	}
 }
 
-bool inRange(int, int); //checks if the inputs are between 0 and 7
-
 bool isL(int row, int col, int newrow, int newcol){ //checks if the movement follows a L shape that a knight should
 	if(row == newrow + 2 && col == newcol + 1) return true;
 	else if(row == newrow + 2 && col == newcol - 1) return true;
@@ -152,12 +108,4 @@ bool Knight::isValid(int row, int col){
 	}
 	//if none of the cases were true, it is an invalid move
 	return false;
-}
-
-bool Knight::inRange(int row, int col){
-	if(row < 0 || row > 7 || col < 0 || col > 7){
-		return false;
-	}
-	if(row == position.row && col == position.col) return false;
-	return true;
 }

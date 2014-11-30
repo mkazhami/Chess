@@ -12,49 +12,6 @@ Rook::~Rook() {
 	if(legalMoves.size() != 0) deleteLegalMoves();
 }
 
-void Rook::updateValidMoves() {
-	if(validMoves.size() != 0) deleteValidMoves();
-	//cout << "updating valid moves: rook" << endl;
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			if(isValid(i, j)){
-				Posn *temp = new Posn (i, j);
-				validMoves.push_back(temp);
-			}
-		}
-	}
-}
-
-
-void Rook::updateLegalMoves() {
-	//cout << "updating legal moves: rook" << endl;
-	if(legalMoves.size() != 0) deleteLegalMoves();
-	for(int i = 0; i < validMoves.size(); i++){
-		if(isLegal(validMoves[i]->row, validMoves[i]->col)){
-			Posn *temp = new Posn(validMoves[i]->row, validMoves[i]->col);
-			legalMoves.push_back(temp);
-		}
-	}
-}
-
-void Rook::deleteValidMoves() {
-	for(int i = 0; i < validMoves.size(); i++){
-		Posn *temp = validMoves[i];
-		if(temp != 0) delete temp;
-		temp = 0;
-	}
-	validMoves.clear();
-}
-
-void Rook::deleteLegalMoves() {
-        for(int i = 0; i < legalMoves.size(); i++){
-                Posn *temp = legalMoves[i];
-                if(temp != 0) delete temp;
-		temp = 0;
-        }
-        legalMoves.clear();
-}
-
 bool Rook::isLegal(int row, int col) {
 	bool isLegal = false;
 	if(isValid(row, col)){
@@ -134,8 +91,6 @@ bool Rook::updatePosition(int row, int col) {
 	}
 }
 
-bool inRange(int, int); //checks if the inputs are between 0 and 7 and checks if the movement is horizontal or vertical
-
 bool Rook::isValid(int row, int col){
 	if(inRange(row, col)){
 		//if moving horizontally
@@ -162,12 +117,4 @@ bool Rook::isValid(int row, int col){
 	}
 	//if none of the cases were true, it is an invalid move
 	return false;
-}
-
-bool Rook::inRange(int row, int col){
-	if(row < 0 || row > 7 || col < 0 || col > 7){
-		return false;
-	}
-	if(row == position.row && col == position.col) return false;
-	return true;
 }

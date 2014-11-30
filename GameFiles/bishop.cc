@@ -12,48 +12,6 @@ Bishop::~Bishop() {
 	if(legalMoves.size() != 0) deleteLegalMoves();
 }
 
-void Bishop::updateValidMoves() {
-	if(validMoves.size() != 0) deleteValidMoves();
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			if(isValid(i, j)){
-				Posn *temp = new Posn(i,j);
-				validMoves.push_back(temp);
-			}
-		}
-	}
-}
-
-void Bishop::updateLegalMoves() {
-       if(legalMoves.size() != 0) deleteLegalMoves();
-       for(int i = 0; i < validMoves.size(); i++){
-               if(isLegal(validMoves[i]->row, validMoves[i]->col)){
-                       Posn *temp = new Posn(validMoves[i]->row, validMoves[i]->col);
-                       legalMoves.push_back(temp);
-               }
-       }
-}
-
-
-void Bishop::deleteValidMoves() {
-	for(int i = 0; i < validMoves.size(); i++){
-		Posn *temp = validMoves[i];
-		if(temp != 0) delete temp;
-		temp = 0;
-	}
-	validMoves.clear();
-}
-
-void Bishop::deleteLegalMoves() {
-        for(int i = 0; i < legalMoves.size(); i++){
-                Posn *temp = legalMoves[i];
-                if(temp != 0) delete temp;
-		temp = 0;
-        }
-        legalMoves.clear();
-}
-
-
 bool Bishop::isLegal(int row, int col) {
         bool isLegal = false;
         if(isValid(row, col)){
@@ -130,11 +88,12 @@ bool Bishop::updatePosition(int row, int col) {
 	}
 }
 
-bool inRange(int, int); //checks if the inputs are between 0 and 7 and checks if the movement is diagonal
-
-int absolute(int num){
-	if(num < 0) return -num;
-	return num;
+//checks if the inputs are between 0 and 7 and checks if the movement is diagonal
+bool Bishop::inRange(int row, int col){
+        if(row < 0 || row > 7 || col < 0 || col > 7) return false;
+        if(absolute(position.row - row) != absolute(position.col - col)) return false;
+        if(row == position.row && col == position.col) return false;
+        return true;
 }
 
 bool Bishop::isValid(int row, int col){
@@ -181,11 +140,4 @@ bool Bishop::isValid(int row, int col){
 	}
 	//if none of the cases were true, it is an invalid move
 	return false;
-}
-
-bool Bishop::inRange(int row, int col){
-	if(row < 0 || row > 7 || col < 0 || col > 7) return false;
-	if(absolute(position.row - row) != absolute(position.col - col)) return false;
-	if(row == position.row && col == position.col) return false;
-	return true;
 }

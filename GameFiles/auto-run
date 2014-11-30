@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#Script to run each AI against all other AI levels
+#It will run thousands of moves in an attempt to pick up any bugs or errors
+#usage: ./auto-run | ./chess
+
+players=("level[1]" "level[2]" "level[3]" "level[4]")
+
+for player1 in ${players[*]}; do
+	for player2 in ${players[*]}; do
+		echo "$player1 vs $player2"
+		echo "game ${player1} ${player2}"
+		echo "setup default"
+		for i in {0..200000}; do
+			echo move
+		done
+	done
+done

@@ -9,14 +9,9 @@ class King: public Piece {
 	King(Board *board);
 	~King();
 	//see piece.h for details
-	void updateValidMoves();
-	void updateLegalMoves();
-	void deleteValidMoves();
-	void deleteLegalMoves();
 	bool updatePosition(int, int);
 	bool isValid(int, int);
 	bool isLegal(int, int);
-	bool inRange(int, int);
 	//determine whether castling is being attempted and if it is valid/legal
 	bool isCastling(int, int);
 };

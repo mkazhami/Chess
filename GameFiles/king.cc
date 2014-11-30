@@ -5,55 +5,12 @@
 #include <iostream>
 using namespace std;
 
-
-int absolute(int);
 //see piece.h for information on how these functions work
 King::King(Board *board): Piece(board) {hasMoved = false;}
 
 King::~King() {
 	deleteLegalMoves();
 	deleteValidMoves();
-}
-
-void King::updateValidMoves() {
-	deleteValidMoves();
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			if(isValid(i, j)){
-				Posn *temp = new Posn(i,j);
-				validMoves.push_back(temp);
-			}
-		}
-	}
-}
-
-void King::updateLegalMoves() {
-       deleteLegalMoves();
-       for(int i = 0; i < validMoves.size(); i++){
-               if(isLegal(validMoves[i]->row, validMoves[i]->col)){
-                       Posn *temp = new Posn(validMoves[i]->row, validMoves[i]->col);
-                       legalMoves.push_back(temp);
-               }
-       }
-}
-
-
-void King::deleteValidMoves() {
-	for(int i = 0; i < validMoves.size(); i++){
-		Posn *temp = validMoves[i];
-		delete temp;
-		temp = 0;
-	}
-	validMoves.clear();
-}
-
-void King::deleteLegalMoves() {
-        for(int i = 0; i < legalMoves.size(); i++){
-                Posn *temp = legalMoves[i];
-                delete temp;
-		temp = 0;
-        }
-        legalMoves.clear();
 }
 
 bool King::isLegal(int row, int col){
@@ -179,7 +136,7 @@ bool King::isCastling(int row, int col){ //checks if the king can castle
                                         board->board[7][4] = board->board[7][2];
                                         board->board[7][2] = 0;
                                         cout <<"move puts king in check" << endl;
-                                        board->updateValidMoves();
+                                        board->updateValidMoves(); 
                                         return false;
                                 }
                                 char opp = colour == 'w' ? 'b' : 'w';
@@ -275,30 +232,15 @@ bool King::updatePosition(int row, int col) {
 	}
 }
 
-bool inRange(int, int);
-
-//function to return the absolute value
-int absolt(int num){
-	if(num < 0) return -num;
-	return num;
-}
-
-
 bool King::isValid(int row, int col){
 	int rowTemp = row;
 	int colTemp = col;
 	if(inRange(row, col)){
-		if(absolt(row - position.row) <= 1 && absolt(col - position.col) <= 1){ //moving any direction as long as its distance is one
+		if(absolute(row - position.row) <= 1 && absolute(col - position.col) <= 1){ //moving any direction as long as its distance is one
 			//check if spot is empty or contains an enemy
 			if(board->board[row][col] == 0 || (board->board[row][col]->colour != colour)) return true;
 		}
 	}
 	//if none of the cases were true, it is an invalid move
 	return false;
-}
-
-bool King::inRange(int row, int col){
-	if(row < 0 || row > 7 || col < 0 || col > 7) return false;
-	if(row == position.row && col == position.col) return false;
-	return true;
 }

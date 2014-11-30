@@ -6,57 +6,12 @@
 using namespace std;
 
 
-int absolute(int);
-
 Queen::Queen(Board *board): Piece(board) {}
 
 Queen::~Queen() {
 	if(validMoves.size() != 0) deleteValidMoves();
 	if(legalMoves.size() != 0) deleteLegalMoves();
 }
-
-void Queen::updateValidMoves() {
-	if(validMoves.size() != 0) deleteValidMoves();
-//	cout << "updating moves: queen" << endl;
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			if(isValid(i,j)){
-				Posn *temp = new Posn(i,j);
-				validMoves.push_back(temp);
-			}
-		}
-	}
-}
-
-void Queen::updateLegalMoves() {
-       if(legalMoves.size() != 0) deleteLegalMoves();
-//       cout << "updating moves" << endl;
-       for(int i = 0; i < validMoves.size(); i++){
-               if(isLegal(validMoves[i]->row, validMoves[i]->col)){
-                       Posn *temp = new Posn(validMoves[i]->row, validMoves[i]->col);
-                       legalMoves.push_back(temp);
-               }
-       }
-}
-
-void Queen::deleteValidMoves() {
-	for(int i = 0; i < validMoves.size(); i++){
-		Posn *temp = validMoves[i];
-		if(temp != 0) delete temp;
-		temp = 0;
-	}
-	validMoves.clear();
-}
-
-void Queen::deleteLegalMoves() {
-        for(int i = 0; i < legalMoves.size(); i++){
-                Posn *temp = legalMoves[i];
-                if(temp != 0) delete temp;
-		temp = 0;
-        }
-        legalMoves.clear();
-}
-
 
 bool Queen::isLegal(int row, int col){
 	bool isLegal = false;
@@ -134,18 +89,11 @@ bool Queen::updatePosition(int row, int col) {
 	}
 }
 
-bool inRange(int, int); //combines the inRange of rook and bishop
-
-int abs(int num){
-	if(num < 0) return -num;
-	return num;
-}
-
 bool Queen::isValid(int row, int col){
 	int rowTemp = row;
 	int colTemp = col;
 	//combines the code in Rook::isValid and Bishop::isValid
-	if(inRange(row, col) && (abs(position.row - row) == abs(position.col - col))){
+	if(inRange(row, col) && (absolute(position.row - row) == absolute(position.col - col))){
 		if(row > position.row){
 			if(col > position.col){
 				while(rowTemp > position.row + 1 && colTemp > position.col + 1){
@@ -202,10 +150,4 @@ bool Queen::isValid(int row, int col){
 	}
 	//if none of the cases were true, it is an invalid move
 	return false;
-}
-
-bool Queen::inRange(int row, int col){
-	if(row < 0 || row > 7 || col < 0 || col > 7) return false;
-	if(row == position.row && col == position.col) return false;
-	return true;
 }

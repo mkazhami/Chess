@@ -154,7 +154,7 @@ void GraphicDisplay::updateScore(float white, float black){
 	ss1 << black;
 	ss >> sWhite;
 	ss1 >> sBlack;
-	window->drawBigString(5, 550, "                            White - " + sWhite + "                                  Black - " + sBlack, Xwindow::White);
+	window->drawString(5, 550, "                            White - " + sWhite + "                                  Black - " + sBlack, Xwindow::White);
 }
 
 void GraphicDisplay::clearMessage() {

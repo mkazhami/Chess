@@ -15,49 +15,6 @@ Pawn::~Pawn() { //destructor for pawn
 	id = 0;
 }
 
-void Pawn::updateValidMoves() { //updates the vector of possible physical moves the piece may have
-	if(validMoves.size() != 0) deleteValidMoves();
-	//goes through the entire board and sees if moving there is valid
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			if(isValid(i, j)){
-				Posn *temp = new Posn(i, j);
-				validMoves.push_back(temp);
-			}
-		}
-	}
-}
-
-void Pawn::updateLegalMoves() { //updates the vector of legal moves the piece may have
-       if(legalMoves.size() != 0) deleteLegalMoves();
-	//goes through all the valid moves and sees if moving there puts the side's king in check
-       for(int i = 0; i < validMoves.size(); i++){
-               if(isLegal(validMoves[i]->row, validMoves[i]->col)){
-                       Posn *temp = new Posn(validMoves[i]->row, validMoves[i]->col);
-                       legalMoves.push_back(temp);
-               }
-       }
-}
-
-void Pawn::deleteValidMoves() { //frees the vector of valid moves
-	for(int i = 0; i < validMoves.size(); i++){
-		Posn *temp = validMoves[i];
-		if(temp != 0) delete temp;
-		temp = 0;
-	}
-	validMoves.clear();
-}
-
-void Pawn::deleteLegalMoves() { //frees the vector of legal moves
-	for(int i = 0; i < legalMoves.size(); i++){
-                Posn *temp = legalMoves[i];
-                if(temp != 0) delete temp;
-		temp = 0;
-        }
-        legalMoves.clear();
-}
-
-
 bool Pawn::isLegal(int row, int col) { //returns true if moving to this position doesn't put the same side's king in check
 					// no permanent moves are made
         bool isLegal = false; 
@@ -228,8 +185,6 @@ bool Pawn::updatePosition(int row, int col) { //returns true if the piece was ab
 	}
 }
 
-bool inRange(int, int); //checks if the input are between 0 and 7
-
 bool Pawn::isValid(int row, int col){ //checks if where it wants to move obeys the pawn's movement rules
 	if(colour == 'w' && inRange(row, col)){
 		if(row == position.row - 1 && col == position.col && board->board[row][col] == 0) return true; //moving one space forward
@@ -256,11 +211,4 @@ bool Pawn::isValid(int row, int col){ //checks if where it wants to move obeys t
 	}
 	//if none of the cases were true, it is an invalid move
 	return false;
-}
-
-
-bool Pawn::inRange(int row, int col){
-	if(row > 7 || col > 7 || row < 0 || col < 0) return false;
-	if(row == position.row && col == position.col) return false;
-	return true;
 }

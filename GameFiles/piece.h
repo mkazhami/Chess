@@ -31,13 +31,15 @@ class Piece {
 	//determine whether a move is legal - does it put you in check
 	virtual bool isLegal(int, int)=0;
 	//determine whether a move is in the range of the board
-	virtual bool inRange(int, int)=0;
+	virtual bool inRange(int, int);
+	//inRange helper function - returns absolute value
+	int absolute(int);
 	//update the vectors
-	virtual void updateValidMoves()=0;
-	virtual void updateLegalMoves()=0;
+	void updateValidMoves();
+	void updateLegalMoves();
 	//clear the vectors
-	virtual void deleteValidMoves()=0;
-	virtual void deleteLegalMoves()=0;
+	void deleteValidMoves();
+	void deleteLegalMoves();
 	//attempt to update position - returns true if successful, false otherwise
 	virtual bool updatePosition(int, int)=0;
 };
